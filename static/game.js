@@ -35,16 +35,16 @@ setInterval(function() {
 document.addEventListener('keydown', function(event) {
   switch (event.keyCode) {
     case 65: // A
-      movement.left = true;
+      movement.dir = "left";
       break;
     case 87: // W
-      movement.up = true;
+      movement.dir = "top";
       break;
     case 68: // D
-      movement.right = true;
+      movement.dir = "right";
       break;
     case 83: // S
-      movement.down = true;
+      movement.dir = "down";
       break;
   }
 });
