@@ -1,6 +1,7 @@
 GAME_INTERVAL = 500
 FIELD = "FIELD"
 PLAYER_ID = "1"
+DIR = ""
 STEP = 10
 movement = {}
 var c = new Image(100, 100)
@@ -16,26 +17,22 @@ players = [{
   y: 10
 }]
 
-var socket = io()
-socket.on('game', function (data) {
-	console.log("asd")
+var socket = io.connect()
+socket.on('game', function (tanks) {
+	console.log(tanks)
 	players.forEach(function(player, index, players) {
-		if (player.id in data) {
+		let tank = tanks[player.id]
+		console.log(tank)
+		if (tank) {
 			let id = player.id
-			console.log(data, player)
-			if (data[id] != player.dir) {
-				player.dir = data[id]
-			} else {
-				if (data[id] == "left")
-					player.x += STEP
-				if (data[id] == "right")
-					player.x -= STEP
-				if (data[id] == "top")
-					player.y += STEP
-				if (data[id] == "down")
-					player.y -= STEP
-
-			}
+			if (tank === "left")
+				players[index].x += STEP
+			if (tank === "right")
+				players[index].x -= STEP
+			if (tank === "top")
+				players[index].y += STEP
+			if (tank === "down")
+				players[index].y -= STEP
 		}
 	})
 });
@@ -48,11 +45,10 @@ function DRAW() {
 }
 
 function sendState() {
-	socket.emit('game', {PLAYER_ID: movement})
+    socket.emit("game", {id: PLAYER_ID, dir: DIR});
 }
 
 function update() {
-  players[0].x += 10
   DRAW()
 }
 
@@ -65,15 +61,19 @@ document.addEventListener('keydown', function (event) {
   switch (event.keyCode) {
     case 65: // A
       movement.dir = "left";
+      DIR = "left"
       break;
     case 87: // W
       movement.dir = "top";
+      DIR = "top"
       break;
     case 68: // D
       movement.dir = "right";
+      DIR = "right"
       break;
     case 83: // S
       movement.dir = "down";
+      DIR = "down"
       break;
   }
 });

@@ -19,3 +19,12 @@ app.get('/', function(request, response) {
 server.listen(5000, function() {
     console.log('Запускаю сервер на порте 5000');
 });
+
+tanks = {}
+
+io.on('connection', (socket) => {
+  socket.on('game', (data) => {
+  	tanks[data.id] = data.dir
+  	io.sockets.emit('game', tanks);
+  });
+})
