@@ -1,6 +1,7 @@
 GAME_INTERVAL = 50
 FIELD = "FIELD"
 PLAYER_ID = "1"
+DIR = ""
 STEP = 10
 movement = {}
 var c = new Image(100, 100)
@@ -10,34 +11,29 @@ c.style.position = "absolute"
 
 players = [{
   id: PLAYER_ID,
-  dir: "down",
+  dir: "",
   e: c,
   x: 100,
   y: 10
 }]
 
-var socket = io()
-socket.on('game', function (data) {
-  console.log("asd")
-  players.forEach(function (player, index, players) {
-    if (player.id in data) {
-      let id = player.id
-      console.log(data, player)
-      if (data[id] != player.dir) {
-        player.dir = data[id]
-      } else {
-        if (data[id] == "left")
-          player.x += STEP
-        if (data[id] == "right")
-          player.x -= STEP
-        if (data[id] == "top")
-          player.y += STEP
-        if (data[id] == "down")
-          player.y -= STEP
-
-      }
-    }
-  })
+var socket = io.connect()
+socket.on('game', function (tanks) {
+	players.forEach(function(player, index, players) {
+		let tank = tanks[player.id]
+		if (tank) {
+			let id = player.id
+			if (tank === "_left")
+				players[index].x += STEP
+			if (tank === "_right")
+				players[index].x -= STEP
+			if (tank === "_top")
+				players[index].y += STEP
+			if (tank === "_down")
+				players[index].y -= STEP
+		}
+	})
+  update()
 });
 
 function DRAW() {
@@ -51,9 +47,7 @@ function DRAW() {
 }
 
 function sendState() {
-  socket.emit('game', {
-    PLAYER_ID: movement
-  })
+    socket.emit("game", {id: PLAYER_ID, dir: DIR});
 }
 
 function canMove() {
@@ -105,7 +99,6 @@ function update() {
 }
 
 setInterval(function () {
-  update();
   sendState();
 }, GAME_INTERVAL);
 
