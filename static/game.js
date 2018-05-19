@@ -16,7 +16,7 @@ players = [{
   y: 10
 }]
 
-var socket = io();
+var socket = io()
 socket.on('game', function (data) {
   console.log("asd")
   players.forEach(function (player, index, players) {
