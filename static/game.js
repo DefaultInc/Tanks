@@ -92,8 +92,9 @@ function update() {
       case "": // S
         players[0].y += 10
         break;
-    } 
+    }
   }
+  
   DRAW()
 }
 
