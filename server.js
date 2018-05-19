@@ -19,7 +19,3 @@ app.get('/', function(request, response) {
 server.listen(5000, function() {
     console.log('Запускаю сервер на порте 5000');
 });
-
-setInterval(function() {
-    io.sockets.emit('game', 'hi!');
-}, 1000);
