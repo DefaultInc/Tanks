@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tanks</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0
+        }
+    </style>
+</head>
+<script src="scripts/pixi.min.js"></script>
+
+<body>
+    <script type="text/javascript">
+        let type = "WebGL"
+        if (!PIXI.utils.isWebGLSupported()) {
+            type = "canvas"
+        }
+        let app = new PIXI.Application({
+            width: 1024,
+            height: 1024
+        });
+        document.body.appendChild(app.view);
+
+        PIXI.loader
+            .add("assets/grass.png")
+            .add("assets/tankBlack_outline.png")
+            .add("assets/barrelBlack_outline.png")
+            .add("assets/tracksLarge.png")
+            .load(setup);
+
+        function setup() {
+            let grass = new PIXI.Sprite(
+                PIXI.loader.resources["assets/grass.png"].texture
+            );
+            // let tank_main = new PIXI.Sprite(
+            //     PIXI.loader.resources["assets/tankBlack_outline.png"].texture
+            // );
+            // let tank_barrel = new PIXI.Sprite(
+            //     PIXI.loader.resources["assets/barrelBlack_outline.png"].texture
+            // );
+            // let tank_tracks = new PIXI.Sprite(
+            //     PIXI.loader.resources["assets/tracksLarge.png"].texture
+            // );
+            // tank_main.width = 50;
+            // tank_main.height = 50;
+            // tank_barrel.width = 15;
+            // tank_barrel.height = 40;
+            // tank_barrel.x = 17.5;
+            // tank_barrel.y = 18;
+            // tank_tracks.width = 50;
+            // tank_tracks.height = 50;
+            tank = new PIXI.Graphics();
+            tank.lineStyle(2, 0xFFFFFF); //(thickness, color)
+            tank.drawCircle(0, 0, 8); //(x,y,radius)
+            tank.x = 10;
+            tank.y = 10;
+            tank.endFill();
+            grass.width = 1024;
+            grass.height = 1024;
+            app.stage.addChild(grass);
+            app.stage.addChild(tank)
+            // app.stage.addChild(tank_main);
+            // app.stage.addChild(tank_barrel);
+            // app.stage.addChild(tank_tracks);
+        }
+
+        function move() {
+
+        }
+    </script>
+</body>
+
+</html>
