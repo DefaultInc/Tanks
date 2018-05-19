@@ -1,4 +1,4 @@
-GAME_INTERVAL = 500
+GAME_INTERVAL = 50
 FIELD = "FIELD"
 PLAYER_ID = "1"
 STEP = 10
@@ -44,6 +44,9 @@ function DRAW() {
   players.forEach(player => {
     player.e.style.left = player.x + 'px';
     player.e.style.top = player.y + 'px';
+    if( movement.dir != undefined) {
+      player.e.src = 'static/tank' + movement.dir + '.png';
+    }
   })
 }
 
@@ -52,7 +55,22 @@ function sendState() {
 }
 
 function update() {
-  players[0].x += 10
+  
+  switch (movement.dir) {
+    case "_left": // A
+      players[0].x -= 10
+      break;
+    case "_up": // W
+      players[0].y -= 10
+      break;
+    case "_right": // D
+      players[0].x += 10
+      break;
+    case "": // S
+      players[0].y += 10
+      break;
+  }
+
   DRAW()
 }
 
@@ -64,16 +82,18 @@ setInterval(function () {
 document.addEventListener('keydown', function (event) {
   switch (event.keyCode) {
     case 65: // A
-      movement.dir = "left";
+      movement.dir = "_left";
       break;
     case 87: // W
-      movement.dir = "top";
+      movement.dir = "_up";
       break;
     case 68: // D
-      movement.dir = "right";
+      movement.dir = "_right";
       break;
     case 83: // S
-      movement.dir = "down";
+      movement.dir = "";
       break;
   }
 });
+
+movement.dir = ""
