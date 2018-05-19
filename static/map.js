@@ -1,5 +1,5 @@
 var map = new Array([]);
-var c = document.getElementById("canvas");
+var c = document.getElementById("FIELD");
 var ctx = c.getContext("2d");
 
 for (var i = 0; i < 1024; i++) {
