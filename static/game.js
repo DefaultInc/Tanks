@@ -1,6 +1,7 @@
 GAME_INTERVAL = 50
 FIELD = "FIELD"
 PLAYER_ID = "1"
+DIR = ""
 STEP = 10
 movement = {}
 var c = new Image(100, 100)
@@ -28,36 +29,29 @@ function newBullet(direct, x, y) {
 
 players = [{
   id: PLAYER_ID,
-  dir: "down",
+  dir: "",
   e: c,
   x: 100,
   y: 10
 }]
 
-bullets = []
-
-var socket = io();
-socket.on('game', function (data) {
-  console.log("asd")
+var socket = io.connect()
+socket.on('game', function (tanks) {
   players.forEach(function (player, index, players) {
-    if (player.id in data) {
+    let tank = tanks[player.id]
+    if (tank) {
       let id = player.id
-      console.log(data, player)
-      if (data[id] != player.dir) {
-        player.dir = data[id]
-      } else {
-        if (data[id] == "left")
-          player.x += STEP
-        if (data[id] == "right")
-          player.x -= STEP
-        if (data[id] == "top")
-          player.y += STEP
-        if (data[id] == "down")
-          player.y -= STEP
-
-      }
+      if (tank === "_left")
+        players[index].x += STEP
+      if (tank === "_right")
+        players[index].x -= STEP
+      if (tank === "_top")
+        players[index].y += STEP
+      if (tank === "_down")
+        players[index].y -= STEP
     }
   })
+  update()
 });
 
 function DRAW() {
@@ -71,26 +65,55 @@ function DRAW() {
 }
 
 function sendState() {
-  socket.emit('game', {
-    PLAYER_ID: movement
-  })
+  socket.emit("game", {
+    id: PLAYER_ID,
+    dir: DIR
+  });
+}
+
+function canMove() {
+  var x = players[0].x;
+  var y = players[0].y;
+
+  switch (movement.dir) {
+    case "":
+      if (y + 100 + 10 > 1024 || map[x][y + 100 + 10] == 1 || map[x + 100][y + 100 + 10] == 1 || y + 10 >= 2024)
+        return false;
+      break;
+    case "_left":
+      if (map[x - 10][y] == 1 || map[x - 10][y + 100] == 1 || x - 10 <= 0)
+        return false;
+      break;
+    case "_up":
+      if (map[x][y - 10] == 1 || map[x + 100][y - 10] == 1 || y - 10 <= 0)
+        return false;
+      break;
+    case "_right":
+      if (x + 100 + 10 > 1024 || map[x + 100 + 10][y] == 1 || map[x + 100 + 10][y + 100] == 1 || x + 10 >= 1024)
+        return false;
+      break;
+
+  }
+  return true;
 }
 
 function update() {
 
-  switch (movement.dir) {
-    case "_left": // A
-      players[0].x -= 10
-      break;
-    case "_up": // W
-      players[0].y -= 10
-      break;
-    case "_right": // D
-      players[0].x += 10
-      break;
-    case "": // S
-      players[0].y += 10
-      break;
+  if (canMove()) {
+    switch (movement.dir) {
+      case "_left": // A
+        players[0].x -= 10
+        break;
+      case "_up": // W
+        players[0].y -= 10
+        break;
+      case "_right": // D
+        players[0].x += 10
+        break;
+      case "": // S
+        players[0].y += 10
+        break;
+    }
   }
 
   DRAW()
@@ -153,7 +176,6 @@ function updateBullets() {
 
 
 setInterval(function () {
-  update();
   sendState();
 }, GAME_INTERVAL);
 
