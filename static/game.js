@@ -99,9 +99,8 @@ function update() {
         players[0].y += 10
         break;
     }
-  
-    
   }
+  
   DRAW()
 }
 
