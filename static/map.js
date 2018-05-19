@@ -32,19 +32,20 @@ function fillArray(x, y, w, h){
 
 function generateMap() {
     ctx.fillStyle = "#FF0000";    
-    fillArray(80, 120, 80, 320);
-    fillArray(240, 120, 80, 320);
-    fillArray(400, 120, 80, 240);
-    fillArray(560, 120, 80, 240);
-    fillArray(720, 120, 80, 320);
-    fillArray(880, 120, 80, 320);
+    fillArray(130, 130, 80, 320);
+    // fillArray(80, 120, 80, 320);
+    // fillArray(240, 120, 80, 320);
+    // fillArray(400, 120, 80, 240);
+    // fillArray(560, 120, 80, 240);
+    // fillArray(720, 120, 80, 320);
+    // fillArray(880, 120, 80, 320);
     
-    fillArray(80, 600, 80, 320);
-    fillArray(240, 600, 80, 320);
-    fillArray(400, 680, 80, 240);
-    fillArray(560, 680, 80, 240);
-    fillArray(720, 600, 80, 320);
-    fillArray(880, 600, 80, 320);
+    // fillArray(80, 600, 80, 320);
+    // fillArray(240, 600, 80, 320);
+    // fillArray(400, 680, 80, 240);
+    // fillArray(560, 680, 80, 240);
+    // fillArray(720, 600, 80, 320);
+    // fillArray(880, 600, 80, 320);
 }
 
 
