@@ -32,11 +32,11 @@ function fillArray(x, y, w, h){
 
 function generateMap() {
     ctx.fillStyle = "#FF0000";    
-    fillArray(130, 130, 80, 320);
-    // fillArray(80, 120, 80, 320);
-    // fillArray(240, 120, 80, 320);
-    // fillArray(400, 120, 80, 240);
-    // fillArray(560, 120, 80, 240);
+    fillArray(210, 130, 80, 320);
+    fillArray(420, 130, 80, 320);
+    fillArray(650, 130, 80, 320);
+    fillArray(210, 610, 520, 80);
+    fillArray(420, 800, 80, 200);
     // fillArray(720, 120, 80, 320);
     // fillArray(880, 120, 80, 320);
     
